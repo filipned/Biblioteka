@@ -2,6 +2,8 @@ package biblioteka;
 
 import java.util.LinkedList;
 
+import javax.management.RuntimeErrorException;
+
 import biblioteka.interfejs.BibliotekaInterfejs;
 
 public class Biblioteka implements BibliotekaInterfejs {
@@ -10,12 +12,23 @@ public class Biblioteka implements BibliotekaInterfejs {
 	
 	@Override
 	public void dodajKnjigu(Knjiga knjiga) {
+		if(knjiga == null)
+			throw new RuntimeException("Knjiga ne smije biti null!");
+		
+		if(knjige.contains(knjiga))
+			throw new RuntimeException("Knjiga ne postoji u biblioteci!");
+		
 		knjige.add(knjiga);
 
 	}
 
 	@Override
 	public void obrisiKnjigu(Knjiga knjiga) {
+		
+		if(knjige.contains(knjiga))
+			throw new RuntimeException("Knjiga ne postoji u biblioteci!");
+
+		
 		knjige.remove(knjiga);
 
 	}
@@ -26,7 +39,9 @@ public class Biblioteka implements BibliotekaInterfejs {
 		LinkedList<Knjiga> rezultat = new LinkedList<Knjiga>();
 		
 		if(naslov==null && ISBN<=0 && izdavac==null & autor==null)
-			return knjige;
+
+			throw new RuntimeException("Morate unijeti nek kriterijum!");
+
 		
 		if(ISBN > 0)
 			for (int i = 0; i < knjige.size(); i++) {
